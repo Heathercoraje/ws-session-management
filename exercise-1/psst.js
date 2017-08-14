@@ -1,4 +1,6 @@
 'use strict';
+const crypto = require('crypto');
+
 
 module.exports = (secret) => {
   if (!secret || typeof secret !== 'string') {
@@ -7,10 +9,13 @@ module.exports = (secret) => {
 
   const functions = {
     sign: (value) => {
-      return 'oops';
+      return crypto.createHmac('sha256', secret).update(value).digest('base64');
+
+
     },
     validate: (value, hash) => {
-      return false;
+      return (functions.sign(value) === hash);
+      //calling the function functions.sign
     }
   };
 
